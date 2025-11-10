@@ -1,0 +1,2 @@
+# iq-calc
+IQ calculator
