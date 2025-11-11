@@ -35,8 +35,9 @@ const TEXT_1: PCWSTR = w!("あなたの IQ を計算します。");
 const TEXT_2: PCWSTR = w!("あなたの IQ を入力してください。");
 
 thread_local! {
-    static FONT: Cell<HFONT> = Cell::new(HFONT::default());
-    static EDIT: Cell<HWND> = Cell::new(HWND::default());
+    static FONT: Cell<HFONT> = Cell::default();
+    static EDIT: Cell<HWND> = Cell::default();
+    static BUTTON: Cell<HWND> = Cell::default();
 }
 
 unsafe extern "system" fn wnd_proc(
@@ -110,6 +111,7 @@ fn command(hwnd: HWND, wparam: WPARAM) -> Result<()> {
                 MB_ICONINFORMATION,
             )
         };
+        unsafe { SetFocus(Some(BUTTON.get()))? };
     }
     Ok(())
 }
@@ -193,6 +195,7 @@ fn create_button(hwnd: HWND) -> Result<()> {
         )?
     };
     set_font(hwnd);
+    BUTTON.set(hwnd);
     Ok(())
 }
 
